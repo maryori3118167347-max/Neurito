@@ -1,10 +1,10 @@
-# Neurito
+# Neurito :)
 
 Neurito es una mascota virtual (un ajolote) que decide qué hacer usando una red neuronal pequeña. La red la hicimos desde cero con NumPy y la parte gráfica con Pygame.
 
 La mascota tiene tres necesidades que van de 0 a 1: hambre, energía y aburrimiento. Con eso la red escoge entre comer, dormir o jugar.
 
-## Cómo correrlo
+## Cómo correrlo es super facil
 
 ```bash
 pip install numpy pygame
@@ -147,9 +147,4 @@ El 99.4 % es real, pero tiene trampa:
 - No dice qué tan segura estaba. Acertar con 50.1 % cuenta igual que acertar con 99.9 %.
 - Si las clases no estuvieran balanceadas podría engañar todavía más. Aquí cada acción sale más o menos un 33 %, pero si el 95 % de los datos fuera "comer", una red que siempre diga comer tendría 95 % sin haber aprendido nada.
 
-## Archivos
 
-- `main.py`: la red, el entrenamiento y la interfaz con Pygame.
-- `experimentos.py`: los experimentos sin interfaz.
-- `resultados_experimentos.txt`: lo que imprime `experimentos.py`.
-- `assets/`: las imágenes de la mascota, incluida `feliz_1.png`.
