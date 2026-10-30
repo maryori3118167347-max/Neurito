@@ -3,27 +3,29 @@ from pathlib import Path
 import numpy as np
 import pygame
 
-LANGUAGE = "es"  # Change to "es" for Spanish interface text.
+LANGUAGE = "es" 
 TEXT = {
     "en": {
         "title": "NEURITO - MY ARTIFICIAL BRAIN",
         "hunger": "Hunger", "energy": "Energy", "boredom": "Boredom",
         "eat": "EAT", "sleep": "SLEEP", "play": "PLAY", "neutral": "CALM",
+        "happy": "HAPPY",
         "accuracy": "Test accuracy against synthetic policy",
         "epoch": "Epoch", "loss": "Loss",
         "controls1": "H/J: hunger +/-    E/D: energy +/-",
         "controls2": "A/S: boredom +/-    R: random",
-        "controls3": "N: calm state    ESC: quit",
+        "controls3": "N: calm    F: happy    ESC: quit",
     },
     "es": {
         "title": "NEURITO - MI CEREBRO ARTIFICIAL",
         "hunger": "Hambre", "energy": "Energía", "boredom": "Aburrimiento",
         "eat": "COMER", "sleep": "DORMIR", "play": "JUGAR", "neutral": "NEUTRAL",
+        "happy": "FELIZ",
         "accuracy": "Precisión frente a la política sintética",
         "epoch": "Época", "loss": "Pérdida",
         "controls1": "H/J: hambre +/-    E/D: energía +/-",
         "controls2": "A/S: aburrimiento +/-    R: aleatorio",
-        "controls3": "N: estado tranquilo    ESC: salir",
+        "controls3": "N: tranquilo    F: feliz    ESC: salir",
     },
 }
 labels = TEXT[LANGUAGE]
@@ -106,6 +108,7 @@ frames = {
     "eat": load_frames(["comer_1.png", "comer_2.png"]),
     "sleep": load_frames(["dormir_1.png", "dormir_2.png"]),
     "play": load_frames(["jugar_1.png", "jugar_2.png"]),
+    "happy": load_frames(["feliz.jpg"]),
 }
 needs = [0.2, 0.9, 0.2]
 current_state = "neutral"
@@ -136,11 +139,16 @@ while running:
                 needs = list(np.random.rand(3))
             elif event.key == pygame.K_n:
                 needs = [0.2, 0.9, 0.2]
+            elif event.key == pygame.K_f:
+                needs = [0.0, 1.0, 0.0]
 
     probabilities = predict(np.array([needs]))[0]
     action = actions[int(np.argmax(probabilities))]
-    if needs[0] < 0.4 and needs[1] > 0.6 and needs[2] < 0.4:
-        state = "neutral"  # Display rule; the network has three outputs.
+    # Display rules; the network has three outputs.
+    if needs[0] < 0.15 and needs[1] > 0.85 and needs[2] < 0.15:
+        state = "happy"  
+    elif needs[0] < 0.4 and needs[1] > 0.6 and needs[2] < 0.4:
+        state = "neutral"
     else:
         state = action
 
